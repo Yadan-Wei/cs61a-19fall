@@ -1,0 +1,26 @@
+{
+    "name": "Lab 8",
+    "endpoint": "cal/cs61a/fa19/lab08",
+    "src": [
+        "lab08.py",
+        "lab08_extra.py"
+    ],
+    "tests": {
+        "tests/wwpd-growth.py": "ok_test",
+        "lab08.py": "doctest"
+    },
+    "default_tests": [
+        "insert",
+        "wwpd-growth",
+        "subseqs",
+        "inc_subseqs"
+    ],
+    "protocols": [
+        "restore",
+        "file_contents",
+        "unlock",
+        "grading",
+        "analytics",
+        "backup"
+    ]
+}
