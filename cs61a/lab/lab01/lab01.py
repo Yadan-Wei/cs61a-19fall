@@ -24,3 +24,10 @@ def sum_digits(n):
     6
     """
     "*** YOUR CODE HERE ***"
+    if n < 10:
+        return n
+    result = 0
+    while n >= 10:
+        result += n % 10
+        n = n//10
+    return result + n
