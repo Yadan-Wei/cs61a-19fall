@@ -428,6 +428,11 @@ def final_strategy(score, opponent_score):
     *** YOUR DESCRIPTION HERE ***
     """
     # BEGIN PROBLEM 12
+    diff = score - opponent_score
+
+    if diff > 0:
+        return swap_strategy(score, opponent_score, 8, 2)
+
     return 4  # Replace this statement
     # END PROBLEM 12
 
