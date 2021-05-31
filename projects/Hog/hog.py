@@ -159,7 +159,7 @@ def play(strategy0, strategy1, score0=0, score1=0, dice=six_sided,
     # END PROBLEM 5
     # (note that the indentation for the problem 6 prompt (***YOUR CODE HERE***) might be misleading)
     # BEGIN PROBLEM 6
-    "*** YOUR CODE HERE ***"
+        say = say(score0, score1)
     # END PROBLEM 6
     return score0, score1
 
@@ -246,6 +246,31 @@ def announce_highest(who, previous_high=0, previous_score=0):
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
     # BEGIN PROBLEM 7
     "*** YOUR CODE HERE ***"
+    def say(score0, score1):
+    
+    #Hint. If you're getting a local variable [var] reference before assignment error:
+    #This happens because in Python, you aren't normally allowed to modify variables defined 
+    #in parent frames. Instead of reassigning [var], the interpreter thinks you're trying to 
+    #define a new variable within the current frame.
+
+        pre_high_temp = previous_high
+        pre_score_temp = previous_score
+
+        if who == 0:
+            diff = score0 - pre_score_temp
+            pre_score_temp = score0
+        else:
+            diff = score1 - pre_score_temp
+            pre_score_temp = score1
+
+        if diff > pre_high_temp:
+            print("{0} point(s)! That's the biggest gain yet for Player {1}".format(diff, who))
+            pre_high_temp = diff
+
+        return announce_highest(who,pre_high_temp,pre_score_temp)
+
+    return say
+         
     # END PROBLEM 7
 
 
@@ -285,6 +310,13 @@ def make_averaged(fn, num_samples=1000):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    def helper(*args):
+        total = 0
+        for i in range(num_samples):
+            total += fn(*args)
+        return total/num_samples
+    return helper
+
     # END PROBLEM 8
 
 
@@ -299,6 +331,18 @@ def max_scoring_num_rolls(dice=six_sided, num_samples=1000):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    average_score = make_averaged(roll_dice, num_samples)
+    max_num_rolls = 0
+    max_ava_score = 0
+    for i in range(1,11):
+        score = average_score(i, dice)
+        if score > max_ava_score:
+            max_num_rolls = i
+            max_ava_score = score
+    return max_num_rolls
+
+
+
     # END PROBLEM 9
 
 
@@ -347,7 +391,9 @@ def bacon_strategy(score, opponent_score, margin=8, num_rolls=4):
     rolls NUM_ROLLS otherwise.
     """
     # BEGIN PROBLEM 10
-    return 4  # Replace this statement
+    if free_bacon(opponent_score) >= margin:
+        return 0
+    return num_rolls  # Replace this statement
     # END PROBLEM 10
 
 
@@ -357,7 +403,22 @@ def swap_strategy(score, opponent_score, margin=8, num_rolls=4):
     non-beneficial swap. Otherwise, it rolls NUM_ROLLS.
     """
     # BEGIN PROBLEM 11
-    return 4  # Replace this statement
+    score_change = free_bacon(opponent_score)
+
+    new_score = score + score_change
+
+    swap = is_swap(new_score, opponent_score)
+
+    if swap and opponent_score > new_score:
+        return 0
+
+    if score_change >= margin:
+        if not swap:
+            return 0
+        if swap and opponent_score == new_score:
+            return 0
+
+    return num_rolls 
     # END PROBLEM 11
 
 
